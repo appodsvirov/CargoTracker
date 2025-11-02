@@ -2,7 +2,7 @@ namespace CargoTracker.Web.Domain.Abstractions;
 
 using CargoTracker.Web.Domain.Models;
 
-public interface IApiClient
+public interface IDataManagerApiClient
 {
     // Cargos
     Task<IReadOnlyList<CargoDto>> GetCargosAsync(CancellationToken ct = default);

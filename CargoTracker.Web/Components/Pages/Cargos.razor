@@ -1,4 +1,4 @@
-@* @page "/cargos"
+@page "/cargos"
 @rendermode InteractiveServer
 
 <PageTitle>Cargos</PageTitle>
@@ -23,10 +23,10 @@
 </RadzenStack>
 
 @code {
-    [Inject] private IApiClient Api { get; set; } = default!;
-    [Inject] private NotificationService Notifications { get; set; } = default!;
+    [Inject] private CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api { get; set; } = default!;
+    [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
 
-    private IReadOnlyList<CargoDto> cargos = Array.Empty<CargoDto>();
+    private IReadOnlyList<CargoTracker.Web.Domain.Models.CargoDto> cargos = Array.Empty<CargoTracker.Web.Domain.Models.CargoDto>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,14 +42,14 @@
         }
         catch (Exception ex)
         {
-            Notifications.Notify(NotificationSeverity.Error, "Failed to load cargos", ex.Message);
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to load cargos", ex.Message);
         }
     }
 
     private async Task OnAddCargo()
     {
         // Placeholder: Create a minimal cargo and post. In real UI, open dialog.
-        var cargo = new CargoDto
+        var cargo = new CargoTracker.Web.Domain.Models.CargoDto
         {
             Id = Guid.NewGuid(),
             Name = "New cargo",
@@ -62,13 +62,12 @@
         try
         {
             await Api.CreateCargoAsync(cargo);
-            Notifications.Notify(NotificationSeverity.Success, "Cargo created");
+            Notifications.Notify(Radzen.NotificationSeverity.Success, "Cargo created");
             await LoadAsync();
         }
         catch (Exception ex)
         {
-            Notifications.Notify(NotificationSeverity.Error, "Failed to create cargo", ex.Message);
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to create cargo", ex.Message);
         }
     }
 }
- *@
