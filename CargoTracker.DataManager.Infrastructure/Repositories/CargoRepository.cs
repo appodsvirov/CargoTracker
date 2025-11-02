@@ -11,7 +11,7 @@ public class CargoRepository(CargoTrackerDbContext db) : ICargoRepository
         => await db.Cargos.Include(c => c.Track).FirstOrDefaultAsync(c => c.Id == id, ct);
 
     public async Task<IReadOnlyList<Cargo>> GetAllAsync(CancellationToken ct = default)
-        => await db.Cargos.Include(c => c.Track).OrderBy(c => c.DepartureAt).ToListAsync(ct);
+        => await db.Cargos.Include(c => c.Track).OrderByDescending(c => c.DepartureAt).ToListAsync(ct);
 
     public async Task<Cargo> AddAsync(Cargo cargo, CancellationToken ct = default)
     {
