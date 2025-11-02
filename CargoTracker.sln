@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web", "CargoTracker.Web\CargoTracker.Web.csproj", "{178C513E-F2FA-40FB-85CB-FBB13060A021}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.Infrastructure", "CargoTracker.DataManager.Infrastructure\CargoTracker.DataManager.Infrastructure.csproj", "{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.Domain", "CargoTracker.DataManager.Domain\CargoTracker.DataManager.Domain.csproj", "{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Domain", "..\CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj", "{67FA83FD-BD31-4C8D-932B-7A71C3CA5C67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Infrastructure", "..\CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj", "{5AB84199-F410-4407-B091-3203E88EA282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67FA83FD-BD31-4C8D-932B-7A71C3CA5C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67FA83FD-BD31-4C8D-932B-7A71C3CA5C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67FA83FD-BD31-4C8D-932B-7A71C3CA5C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67FA83FD-BD31-4C8D-932B-7A71C3CA5C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AB84199-F410-4407-B091-3203E88EA282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AB84199-F410-4407-B091-3203E88EA282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AB84199-F410-4407-B091-3203E88EA282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AB84199-F410-4407-B091-3203E88EA282}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
