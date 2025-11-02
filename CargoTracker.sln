@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.Domain", "CargoTracker.DataManager.Domain\CargoTracker.DataManager.Domain.csproj", "{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Domain", "CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj", "{38218921-BA82-415F-B6AD-DEAD815E726F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Infrastructure", "CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj", "{16ED774B-848B-47BA-8708-E061085C6D68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38218921-BA82-415F-B6AD-DEAD815E726F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38218921-BA82-415F-B6AD-DEAD815E726F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38218921-BA82-415F-B6AD-DEAD815E726F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38218921-BA82-415F-B6AD-DEAD815E726F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16ED774B-848B-47BA-8708-E061085C6D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16ED774B-848B-47BA-8708-E061085C6D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16ED774B-848B-47BA-8708-E061085C6D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16ED774B-848B-47BA-8708-E061085C6D68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
