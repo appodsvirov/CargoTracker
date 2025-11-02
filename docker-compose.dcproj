@@ -11,13 +11,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include=".env" />
-    <None Include="CargoTracker.Web.Domain\Abstractions\IApiClient.cs" />
-    <None Include="CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj" />
-    <None Include="CargoTracker.Web.Domain\Models\CargoDto.cs" />
-    <None Include="CargoTracker.Web.Domain\Models\TrackDto.cs" />
-    <None Include="CargoTracker.Web.Infrastructure\Api\ApiClient.cs" />
-    <None Include="CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj" />
-    <None Include="CargoTracker.Web.Infrastructure\DependencyInjection.cs" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

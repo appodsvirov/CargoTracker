@@ -1,0 +1,73 @@
+@page "/cargos"
+@rendermode InteractiveServer
+
+<PageTitle>Cargos</PageTitle>
+
+<RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px">
+        <RadzenButton Text="Refresh" Click="LoadAsync" Icon="refresh" Style="margin-right:5px" />
+        <RadzenButton Text="Add Cargo" Icon="add_circle" Click="OnAddCargo" />
+    </RadzenStack>
+
+    <RadzenDataGrid Data="cargos" TItem="CargoDto" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="CargoDto" Property="Id" Title="Id" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="Name" Title="Name" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="From" Title="From" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="To" Title="To" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="DepartureAt" Title="Departure" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="EstimatedArrivalAt" Title="ETA" />
+            <RadzenDataGridColumn TItem="CargoDto" Property="TrackId" Title="Track" />
+        </Columns>
+    </RadzenDataGrid>
+</RadzenStack>
+
+@code {
+    [Inject] private IApiClient Api { get; set; } = default!;
+    [Inject] private NotificationService Notifications { get; set; } = default!;
+
+    private IReadOnlyList<CargoDto> cargos = Array.Empty<CargoDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        try
+        {
+            cargos = await Api.GetCargosAsync();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Notifications.Notify(NotificationSeverity.Error, "Failed to load cargos", ex.Message);
+        }
+    }
+
+    private async Task OnAddCargo()
+    {
+        // Placeholder: Create a minimal cargo and post. In real UI, open dialog.
+        var cargo = new CargoDto
+        {
+            Id = Guid.NewGuid(),
+            Name = "New cargo",
+            From = "",
+            To = "",
+            DepartureAt = DateTimeOffset.UtcNow,
+            EstimatedArrivalAt = DateTimeOffset.UtcNow.AddDays(3),
+            TrackId = null
+        };
+        try
+        {
+            await Api.CreateCargoAsync(cargo);
+            Notifications.Notify(NotificationSeverity.Success, "Cargo created");
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Notifications.Notify(NotificationSeverity.Error, "Failed to create cargo", ex.Message);
+        }
+    }
+}
