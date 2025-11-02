@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager", 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.Infrastructure", "CargoTracker.DataManager.Infrastructure\CargoTracker.DataManager.Infrastructure.csproj", "{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.DataManager.Domain", "CargoTracker.DataManager.Domain\CargoTracker.DataManager.Domain.csproj", "{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0336C6-47EA-48EF-A6ED-F9C51D27CBD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34084C58-28EB-4A8E-87C2-98CEBF36A5DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
