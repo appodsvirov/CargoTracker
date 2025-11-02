@@ -1,5 +1,5 @@
 using CargoTracker.Web.Components;
-using CargoTracker.Web.Infrastructure;
+//using CargoTracker.Web.Infrastructure;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddRadzenComponents();
 
 // Add Web Infrastructure (ApiClient)
-builder.Services.AddWebInfrastructure(builder.Configuration);
+//builder.Services.AddWebInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

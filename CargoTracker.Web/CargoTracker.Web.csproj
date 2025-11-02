@@ -14,11 +14,4 @@
     <PackageReference Include="Radzen.Blazor" Version="5.29.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj" />
-    <ProjectReference Include="..\..\CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj" />
-    <ProjectReference Include="..\CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj" />
-    <ProjectReference Include="..\CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>
