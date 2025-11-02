@@ -1,0 +1,6 @@
+services:
+  cargotracker.web:
+    image: ${DOCKER_REGISTRY-}cargotrackerweb
+    build:
+      context: .
+      dockerfile: CargoTracker.Web/Dockerfile
