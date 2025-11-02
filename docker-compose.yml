@@ -4,3 +4,23 @@ services:
     build:
       context: .
       dockerfile: CargoTracker.Web/Dockerfile
+  cargotracker.datamanager:
+    image: ${DOCKER_REGISTRY-}cargotrackerdatamanager
+    build:
+      context: .
+      dockerfile: CargoTracker.DataManager/Dockerfile
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cargotracker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

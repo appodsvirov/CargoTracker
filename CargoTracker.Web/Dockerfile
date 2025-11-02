@@ -5,7 +5,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 
 # This stage is used to build the service project
@@ -27,4 +26,4 @@ RUN dotnet publish "./CargoTracker.Web.csproj" -c $BUILD_CONFIGURATION -o /app/p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CargoTracker.Web.dll"]
+ENTRYPOINT ["dotnet", "CargoTracker.Web.dll"]ENTRYPOINT ["dotnet", "CargoTracker.Web.dll"]
