@@ -2,6 +2,55 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+/* Header with right-aligned tabs */
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .5rem 1rem;
+    background: #0d6efd; /* Bootstrap primary */
+    color: #fff;
+}
+.app-header .brand a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.app-tabs {
+    display: flex;
+    gap: .5rem;
+    margin-left: auto; /* push tabs to the right */
+}
+.tab-link {
+    display: inline-flex;
+    align-items: center;
+    padding: .375rem .9rem;
+    border-radius: 999px; /* fully rounded */
+    border: 1px solid rgba(255,255,255,.45);
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255,255,255,.08);
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.tab-link:hover {
+    background: rgba(255,255,255,.18);
+}
+.tab-link.active, .tab-link.active:hover, a.tab-link.active {
+    color: #0d6efd;
+    background: #fff;
+    border-color: #fff;
+}
+
+/* Main content area */
+.app-main {
+    padding: 1rem 0 2rem;
+}
+
+/* Keep existing styles */
 a, .btn-link {
     color: #006bb7;
 }
