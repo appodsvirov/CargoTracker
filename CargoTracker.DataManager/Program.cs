@@ -1,18 +1,27 @@
 using CargoTracker.DataManager.Domain.Abstractions;
 using CargoTracker.DataManager.Domain.Entities;
 using CargoTracker.DataManager.Infrastructure;
+using CargoTracker.DataManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Config
 var connectionString = builder.Configuration.GetConnectionString("Postgres")
-    ?? Environment.GetEnvironmentVariable("POSTGRES_CONNECTION")
-    ?? "Host=postgres;Port=5432;Database=cargotracker;Username=postgres;Password=postgres";
+    ?? Environment.GetEnvironmentVariable("ConnectionStrings__Default")
+    ?? "Host=localhost;Port=5432;Database=cargotracker;Username=postgres;Password=postgres";
 
 // Services
 builder.Services.AddInfrastructure(connectionString);
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CargoTrackerDbContext>();
+    await db.Database.EnsureCreatedAsync();
+}
 
 // Minimal API endpoints for CRUD
 app.MapGet("/api/cargos", async (ICargoRepository repo, CancellationToken ct) =>
