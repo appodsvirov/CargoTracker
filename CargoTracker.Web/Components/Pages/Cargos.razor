@@ -1,20 +1,28 @@
 @page "/cargos"
+@using CargoTracker.Web.Components.Shared
 
 <PageTitle>Cargos</PageTitle>
 
 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px">
-        <RadzenButton Click="LoadAsync" Icon="refresh" Style="margin-right:5px" />
-        <RadzenButton Icon="add_circle" Click="OnAddCargo" />
+        <RadzenButton Text="Refresh" Click="LoadAsync" Icon="refresh" Style="margin-right:5px" />
+        <RadzenButton Text="Add Cargo" Icon="add_circle" Click="OnAddCargo" />
+    </RadzenStack>
+
+    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
         <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px"
-                       Change=OnFilterQueryChanged />
-        <RadzenButton Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
+            Change=OnFilterQueryChanged />
+        <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 
     <RadzenDataGrid Data="filteredCargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10"
         AllowSorting="true">
         <Columns>
-            <RadzenDataGridColumn TItem="Cargo" Property="Id" Title="Id" />
+            <RadzenDataGridColumn TItem="Cargo" Title="Id">
+                <Template Context="c">
+                    <CopyToClipboardButton TextToCopy="@c.Id.ToString()">@c.Id</CopyToClipboardButton>
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
             <RadzenDataGridColumn TItem="Cargo" Property="From" Title="From" />
             <RadzenDataGridColumn TItem="Cargo" Property="To" Title="To" />
@@ -22,8 +30,8 @@
             <RadzenDataGridColumn TItem="Cargo" Property="EstimatedArrivalAt" Title="ETA" />
             <RadzenDataGridColumn TItem="Cargo" Title="Actions" Context="c">
                 <Template Context="c">
-                    <RadzenButton Icon="add_location" Size="ButtonSize.Small" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
-                    <RadzenButton Icon="list" Size="ButtonSize.Small" Click="() => OnShowTracks(c)" />
+                    <RadzenButton Icon="add_location" Size="ButtonSize.Small" Title="Добавить трек" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
+                    <RadzenButton Icon="list" Size="ButtonSize.Small" Title="Показать треки" Click="() => OnShowTracks(c)" />
                 </Template>
             </RadzenDataGridColumn>
         </Columns>

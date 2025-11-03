@@ -1,0 +1,37 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@inject Radzen.NotificationService Notifications
+
+<RadzenButton @onclick="CopyAsync" Icon="content_copy" ButtonStyle="ButtonStyle.Light">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else if (!string.IsNullOrWhiteSpace(ButtonText))
+    {
+        @ButtonText
+    }
+    else
+    {
+        @:Copy
+    }
+</RadzenButton>
+
+@code {
+    [Parameter, EditorRequired] public string TextToCopy { get; set; } = string.Empty;
+    [Parameter] public string? ButtonText { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task CopyAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("cargoTrackerCopyToClipboard", TextToCopy);
+            Notifications.Notify(Radzen.NotificationSeverity.Success, "Скопировано", "Текст скопирован в буфер обмена");
+        }
+        catch (Exception ex)
+        {
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось скопировать", ex.Message);
+        }
+    }
+}
