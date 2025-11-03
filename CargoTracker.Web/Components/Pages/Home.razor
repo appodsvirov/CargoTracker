@@ -2,6 +2,55 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@inject CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api
+@inject Radzen.NotificationService Notifications
+@inject NavigationManager Nav
 
-Welcome to your new app.
+<RadzenStack Orientation="Orientation.Vertical" Gap="12px" Style="max-width:520px">
+    <h3>Перейти к трекам груза</h3>
+    <RadzenStack Orientation="Orientation.Horizontal" Gap="8px" AlignItems="AlignItems.Center">
+        <RadzenTextBox @bind-Value="cargoIdText" Placeholder="Введите ID груза (GUID)" Style="width:360px" Change="OnChange" />
+        <RadzenButton Text="Искать" Icon="search" Click="OnSearch" />
+    </RadzenStack>
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <RadzenAlert Severity="AlertSeverity.Warning" Style="max-width:520px">@error</RadzenAlert>
+    }
+</RadzenStack>
+
+@code {
+    private string? cargoIdText;
+    private string? error;
+
+    private Task OnChange(object? _)
+    {
+        error = null;
+        return Task.CompletedTask;
+    }
+
+    private async Task OnSearch()
+    {
+        error = null;
+        if (!Guid.TryParse(cargoIdText, out var id))
+        {
+            error = "Некорректный формат GUID";
+            return;
+        }
+
+        try
+        {
+            var cargo = await Api.GetCargoAsync(id);
+            if (cargo is null)
+            {
+                error = "Груз не найден";
+                return;
+            }
+            Nav.NavigateTo($"/cargos/{id}/tracks");
+        }
+        catch (Exception ex)
+        {
+            error = "Груз не найден";
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Ошибка поиска груза", ex.Message);
+        }
+    }
+}
