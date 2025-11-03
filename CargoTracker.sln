@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Web.Infrastructure", "CargoTracker.Web.Infrastructure\CargoTracker.Web.Infrastructure.csproj", "{16ED774B-848B-47BA-8708-E061085C6D68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoTracker.Dtos", "CargoTracker.Dtos\CargoTracker.Dtos.csproj", "{5BCC482D-6205-4ED9-A4C9-AA8E17921964}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{16ED774B-848B-47BA-8708-E061085C6D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16ED774B-848B-47BA-8708-E061085C6D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16ED774B-848B-47BA-8708-E061085C6D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BCC482D-6205-4ED9-A4C9-AA8E17921964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BCC482D-6205-4ED9-A4C9-AA8E17921964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BCC482D-6205-4ED9-A4C9-AA8E17921964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BCC482D-6205-4ED9-A4C9-AA8E17921964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
