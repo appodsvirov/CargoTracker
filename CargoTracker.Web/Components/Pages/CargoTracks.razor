@@ -71,8 +71,6 @@
     private string? filterQuery;
     private CargoTracker.Web.Domain.Models.TrackFilterOptions filterOptions = CargoTracker.Web.Domain.Models.TrackFilterOptions.All;
 
-    private string FilterSummary => $"Fields: {filterOptions}";
-
     protected override async Task OnInitializedAsync()
     {
         try

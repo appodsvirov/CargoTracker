@@ -20,7 +20,9 @@
         <Columns>
             <RadzenDataGridColumn TItem="Cargo" Title="Id">
                 <Template Context="c">
-                    <CopyToClipboardButton TextToCopy="@c.Id.ToString()">@c.Id</CopyToClipboardButton>
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="6px" AlignItems="AlignItems.Center">
+                        <CopyToClipboardButton TextToCopy="@c.Id.ToString()" Icon="content_copy" />
+                    </RadzenStack>
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
@@ -50,8 +52,6 @@
 
     private string? filterQuery;
     private CargoTracker.Web.Domain.Models.CargoFilterOptions filterOptions = CargoTracker.Web.Domain.Models.CargoFilterOptions.All;
-
-    private string FilterSummary => $"Fields: {filterOptions}";
 
     protected override async Task OnInitializedAsync()
     {
