@@ -13,8 +13,6 @@
             <RadzenCheckBox @bind-Value="model.ByDeparture" TriState="false" /> <label>Отправление</label>
             <br />
             <RadzenCheckBox @bind-Value="model.ByEta" TriState="false" /> <label>ETA</label>
-            <br />
-            <RadzenCheckBox @bind-Value="model.ByTrack" TriState="false" /> <label>Track Id</label>
         </RadzenFieldset>
 
         <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
@@ -46,7 +44,6 @@
         public bool ByTo { get; set; }
         public bool ByDeparture { get; set; }
         public bool ByEta { get; set; }
-        public bool ByTrack { get; set; }
 
         public CargoFilterOptions ToFlags()
         {
@@ -56,7 +53,6 @@
             if (ByTo) f |= CargoFilterOptions.To;
             if (ByDeparture) f |= CargoFilterOptions.DepartureAt;
             if (ByEta) f |= CargoFilterOptions.EstimatedArrivalAt;
-            if (ByTrack) f |= CargoFilterOptions.TrackId;
             return f == CargoFilterOptions.None ? CargoFilterOptions.All : f;
         }
 
@@ -68,8 +64,7 @@
                 ByFrom = options.HasFlag(CargoFilterOptions.From),
                 ByTo = options.HasFlag(CargoFilterOptions.To),
                 ByDeparture = options.HasFlag(CargoFilterOptions.DepartureAt),
-                ByEta = options.HasFlag(CargoFilterOptions.EstimatedArrivalAt),
-                ByTrack = options.HasFlag(CargoFilterOptions.TrackId)
+                ByEta = options.HasFlag(CargoFilterOptions.EstimatedArrivalAt)
             };
         }
     }

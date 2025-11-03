@@ -8,5 +8,4 @@ public sealed class CargoDto
     public string To { get; set; } = string.Empty;
     public DateTimeOffset DepartureAt { get; set; }
     public DateTimeOffset EstimatedArrivalAt { get; set; }
-    public Guid? TrackId { get; set; }
 }

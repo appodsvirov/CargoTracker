@@ -31,17 +31,6 @@
                 </RadzenStack>
             </RadzenFieldset>
 
-            <RadzenFieldset Text="Трек (необязательно)" Toggleable="false">
-                <RadzenDropDown @bind-Value="model.TrackId"
-                                Data="tracks"
-                                TextProperty="Location"
-                                ValueProperty="Id"
-                                Placeholder="Выберите трек"
-                                AllowClear="true"
-                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                Style="width:100%" />
-            </RadzenFieldset>
-
             <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
                 <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
                 <RadzenButton Text="Создать" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
@@ -52,24 +41,12 @@
 
 @code {
     private NewCargoModel model = new();
-    private IReadOnlyList<Track> tracks = Array.Empty<Track>();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         // Defaults: current time
         model.DepartureAt = DateTimeOffset.UtcNow;
         model.EstimatedArrivalAt = DateTimeOffset.UtcNow;
-
-        // Load tracks for dropdown
-        try
-        {
-            tracks = await Api.GetTracksAsync();
-        }
-        catch
-        {
-            // Ignore loading tracks errors in dialog – keep dropdown empty
-            tracks = Array.Empty<Track>();
-        }
     }
 
     private void OnCancel()
@@ -87,8 +64,7 @@
             From = model.From.Trim(),
             To = model.To.Trim(),
             DepartureAt = model.DepartureAt,
-            EstimatedArrivalAt = model.EstimatedArrivalAt,
-            TrackId = model.TrackId
+            EstimatedArrivalAt = model.EstimatedArrivalAt
         };
 
         Dialogs.Close(cargo);
@@ -107,7 +83,6 @@
 
         public DateTimeOffset DepartureAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset EstimatedArrivalAt { get; set; } = DateTimeOffset.UtcNow;
-        public Guid? TrackId { get; set; }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {

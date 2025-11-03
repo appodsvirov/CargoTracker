@@ -30,7 +30,6 @@ public sealed class CargoFilterService : ICargoFilterService
         if (options.HasFlag(CargoFilterOptions.Name) && Match(c.Name)) return true;
         if (options.HasFlag(CargoFilterOptions.From) && Match(c.From)) return true;
         if (options.HasFlag(CargoFilterOptions.To) && Match(c.To)) return true;
-        if (options.HasFlag(CargoFilterOptions.TrackId) && (c.TrackId?.ToString().IndexOf(q, comp) ?? -1) >= 0) return true;
 
         if (options.HasFlag(CargoFilterOptions.DepartureAt))
         {

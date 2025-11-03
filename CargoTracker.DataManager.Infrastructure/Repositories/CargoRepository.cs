@@ -8,10 +8,10 @@ namespace CargoTracker.DataManager.Infrastructure.Repositories;
 public class CargoRepository(CargoTrackerDbContext db) : ICargoRepository
 {
     public async Task<CargoEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
-        => await db.Cargos.Include(c => c.Track).FirstOrDefaultAsync(c => c.Id == id, ct);
+        => await db.Cargos.FirstOrDefaultAsync(c => c.Id == id, ct);
 
     public async Task<IReadOnlyList<CargoEntity>> GetAllAsync(CancellationToken ct = default)
-        => await db.Cargos.Include(c => c.Track).OrderByDescending(c => c.DepartureAt).ToListAsync(ct);
+        => await db.Cargos.OrderByDescending(c => c.DepartureAt).ToListAsync(ct);
 
     public async Task<CargoEntity> AddAsync(CargoEntity cargo, CancellationToken ct = default)
     {

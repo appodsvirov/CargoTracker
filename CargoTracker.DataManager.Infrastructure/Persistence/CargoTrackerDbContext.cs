@@ -19,11 +19,6 @@ public class CargoTrackerDbContext(DbContextOptions<CargoTrackerDbContext> optio
             entity.Property(e => e.To).IsRequired().HasMaxLength(200);
             entity.Property(e => e.DepartureAt).IsRequired();
             entity.Property(e => e.EstimatedArrivalAt).IsRequired();
-
-            entity.HasOne(e => e.Track)
-                  .WithMany(t => t.Cargos)
-                  .HasForeignKey(e => e.TrackId)
-                  .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<TrackEntity>(entity =>
@@ -32,6 +27,12 @@ public class CargoTrackerDbContext(DbContextOptions<CargoTrackerDbContext> optio
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Timestamp).IsRequired();
             entity.Property(e => e.Location).IsRequired().HasMaxLength(400);
+
+            // FK to Cargo
+            entity.HasOne<CargoEntity>()
+                  .WithMany()
+                  .HasForeignKey(t => t.CargoId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

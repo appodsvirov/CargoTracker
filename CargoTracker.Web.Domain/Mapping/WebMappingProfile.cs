@@ -9,7 +9,7 @@ public class WebMappingProfile : Profile
     public WebMappingProfile()
     {
         // Dto -> Model and back
-        CreateMap<CargoDto, Cargo>().ReverseMap();
-        CreateMap<TrackDto, Track>().ReverseMap();
+        CreateMap<CargoDto, Cargo>(MemberList.None).ReverseMap();
+        CreateMap<TrackDto, Track>(MemberList.None).ReverseMap();
     }
 }

@@ -8,8 +8,4 @@ public class CargoEntity
     public string To { get; set; } = string.Empty;   // куда
     public DateTimeOffset DepartureAt { get; set; } // дата и время отправления
     public DateTimeOffset EstimatedArrivalAt { get; set; } // предполагаемая дата прибытия
-
-    // FK to Track
-    public Guid? TrackId { get; set; }
-    public TrackEntity? Track { get; set; }
 }
