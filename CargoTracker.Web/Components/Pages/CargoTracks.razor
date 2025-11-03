@@ -37,7 +37,7 @@
                         <RadzenColumn Size="6">
                             <RadzenFieldset Text="Сроки" Toggleable="false">
                                 <div><b>Отправление:</b> @cargo.DepartureAt.ToLocalTime().ToString("g")</div>
-                                <div><b>ETA:</b> @cargo.EstimatedArrivalAt.ToLocalTime().ToString("g")</div>
+                                <div><b>Прибытие:</b> @cargo.EstimatedArrivalAt.ToLocalTime().ToString("g")</div>
                             </RadzenFieldset>
                         </RadzenColumn>
                     </RadzenRow>
@@ -51,7 +51,6 @@
         <RadzenButton Text="Назад" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
         <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px" Change=OnFilterQueryChanged />
         <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
-        <span>@FilterSummary</span>
     </RadzenStack>
 
     <RadzenDataGrid Data="filtered" TItem="Track" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
