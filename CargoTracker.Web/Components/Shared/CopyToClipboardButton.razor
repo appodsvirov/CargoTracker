@@ -2,7 +2,7 @@
 @inject IJSRuntime JS
 @inject Radzen.NotificationService Notifications
 
-<RadzenButton @onclick="CopyAsync" Icon="@Icon" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small">
+<RadzenButton Click="CopyAsync" Icon="content_copy" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small">
     @if (ChildContent is not null)
     {
         @ChildContent
@@ -16,7 +16,6 @@
 @code {
     [Parameter, EditorRequired] public string TextToCopy { get; set; } = string.Empty;
     [Parameter] public string? ButtonText { get; set; }
-    [Parameter] public string Icon { get; set; } = "content_copy";
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     private async Task CopyAsync()

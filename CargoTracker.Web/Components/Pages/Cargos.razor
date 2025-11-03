@@ -21,19 +21,19 @@
             <RadzenDataGridColumn TItem="Cargo" Title="Id">
                 <Template Context="c">
                     <RadzenStack Orientation="Orientation.Horizontal" Gap="6px" AlignItems="AlignItems.Center">
-                        <CopyToClipboardButton TextToCopy="@c.Id.ToString()" Icon="content_copy" />
+                        <CopyToClipboardButton TextToCopy="@c.Id.ToString()"/>
                     </RadzenStack>
                 </Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
-            <RadzenDataGridColumn TItem="Cargo" Property="From" Title="From" />
-            <RadzenDataGridColumn TItem="Cargo" Property="To" Title="To" />
+            <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Наименование" />
+            <RadzenDataGridColumn TItem="Cargo" Property="From" Title="Откуда" />
+            <RadzenDataGridColumn TItem="Cargo" Property="To" Title="Куда" />
             <RadzenDataGridColumn TItem="Cargo" Property="DepartureAt" Title="Departure" />
             <RadzenDataGridColumn TItem="Cargo" Property="EstimatedArrivalAt" Title="ETA" />
-            <RadzenDataGridColumn TItem="Cargo" Title="Actions" Context="c">
+            <RadzenDataGridColumn TItem="Cargo" Title="Действия" Context="c">
                 <Template Context="c">
-                    <RadzenButton Icon="add_location" Size="ButtonSize.Small" Title="Добавить трек" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
-                    <RadzenButton Icon="list" Size="ButtonSize.Small" Title="Показать треки" Click="() => OnShowTracks(c)" />
+                    <RadzenButton Icon="add_location" Size="ButtonSize.Small" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
+                    <RadzenButton Icon="list" Size="ButtonSize.Small" Click="() => OnShowTracks(c)" />
                 </Template>
             </RadzenDataGridColumn>
         </Columns>

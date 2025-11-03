@@ -14,10 +14,7 @@
         <ChildContent>
             @if (cargo is null)
             {
-                <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
-                    <RadzenSkeleton Shape="SkeletonShape.Text" Width="200px" />
-                    <RadzenSkeleton Shape="SkeletonShape.Text" Width="120px" />
-                </RadzenStack>
+                <RadzenText Text="√руз не найден"/>
             }
             else
             {
@@ -53,7 +50,7 @@
         <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 
-    <RadzenDataGrid Data="filtered" TItem="Track" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
+    <RadzenDataGrid Data="filtered" TItem="Track" AllowPaging="true" PageSize="10" AllowSorting="true">
         <Columns>
             <RadzenDataGridColumn TItem="Track" Property="Id" Title="Id" />
             <RadzenDataGridColumn TItem="Track" Property="Timestamp" Title="Timestamp" />
