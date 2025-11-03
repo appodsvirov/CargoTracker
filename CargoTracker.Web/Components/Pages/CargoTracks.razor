@@ -8,11 +8,50 @@
 
 <PageTitle>Tracks</PageTitle>
 
-<RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+<RadzenStack Orientation="Orientation.Vertical" Gap="16px">
+    <!-- Cargo card on top -->
+    <RadzenCard Style="max-width: 900px">
+        <ChildContent>
+            @if (cargo is null)
+            {
+                <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+                    <RadzenSkeleton Shape="SkeletonShape.Text" Width="200px" />
+                    <RadzenSkeleton Shape="SkeletonShape.Text" Width="120px" />
+                </RadzenStack>
+            }
+            else
+            {
+                <RadzenStack Orientation="Orientation.Vertical" Gap="8px">
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+                        <h3 style="margin:0">@cargo.Name</h3>
+                        <RadzenBadge Text=@cargo.Id.ToString() Style="background:#eee;color:#444" />
+                    </RadzenStack>
+
+                    <RadzenRow>
+                        <RadzenColumn Size="6">
+                            <RadzenFieldset Text="Маршрут" Toggleable="false">
+                                <div><b>Откуда:</b> @cargo.From</div>
+                                <div><b>Куда:</b> @cargo.To</div>
+                            </RadzenFieldset>
+                        </RadzenColumn>
+                        <RadzenColumn Size="6">
+                            <RadzenFieldset Text="Сроки" Toggleable="false">
+                                <div><b>Отправление:</b> @cargo.DepartureAt.ToLocalTime().ToString("g")</div>
+                                <div><b>ETA:</b> @cargo.EstimatedArrivalAt.ToLocalTime().ToString("g")</div>
+                            </RadzenFieldset>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenStack>
+            }
+        </ChildContent>
+    </RadzenCard>
+
+    <!-- Controls and tracks below -->
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
-        <RadzenButton Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
+        <RadzenButton Text="Назад" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
         <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px" Change=OnFilterQueryChanged />
-        <RadzenButton Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
+        <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
+        <span>@FilterSummary</span>
     </RadzenStack>
 
     <RadzenDataGrid Data="filtered" TItem="Track" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
@@ -27,6 +66,7 @@
 @code {
     [Parameter] public Guid CargoId { get; set; }
 
+    private Cargo? cargo;
     private IReadOnlyList<Track> all = Array.Empty<Track>();
     private IReadOnlyList<Track> filtered = Array.Empty<Track>();
     private string? filterQuery;
@@ -38,13 +78,19 @@
     {
         try
         {
+            cargo = await Api.GetCargoAsync(CargoId);
+            if (cargo is null)
+            {
+                Notifications.Notify(Radzen.NotificationSeverity.Warning, "Груз не найден");
+            }
+
             var tracks = await Api.GetTracksAsync();
             all = tracks.Where(t => t.CargoId == CargoId).ToList();
             ApplyFilter();
         }
         catch (Exception ex)
         {
-            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось загрузить треки", ex.Message);
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось загрузить данные", ex.Message);
         }
     }
 
