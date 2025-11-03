@@ -8,15 +8,15 @@
         <RadzenButton Text="Add Cargo" Icon="add_circle" Click="OnAddCargo" />
     </RadzenStack>
 
-    <RadzenDataGrid Data="cargos" TItem="CargoDto" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
+    <RadzenDataGrid Data="cargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
         <Columns>
-            <RadzenDataGridColumn TItem="CargoDto" Property="Id" Title="Id" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="Name" Title="Name" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="From" Title="From" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="To" Title="To" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="DepartureAt" Title="Departure" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="EstimatedArrivalAt" Title="ETA" />
-            <RadzenDataGridColumn TItem="CargoDto" Property="TrackId" Title="Track" />
+            <RadzenDataGridColumn TItem="Cargo" Property="Id" Title="Id" />
+            <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
+            <RadzenDataGridColumn TItem="Cargo" Property="From" Title="From" />
+            <RadzenDataGridColumn TItem="Cargo" Property="To" Title="To" />
+            <RadzenDataGridColumn TItem="Cargo" Property="DepartureAt" Title="Departure" />
+            <RadzenDataGridColumn TItem="Cargo" Property="EstimatedArrivalAt" Title="ETA" />
+            <RadzenDataGridColumn TItem="Cargo" Property="TrackId" Title="Track" />
         </Columns>
     </RadzenDataGrid>
 </RadzenStack>
@@ -25,7 +25,7 @@
     [Inject] private CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api { get; set; } = default!;
     [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
 
-    private IReadOnlyList<CargoTracker.Dtos.CargoDto> cargos = Array.Empty<CargoTracker.Dtos.CargoDto>();
+    private IReadOnlyList<Cargo> cargos = Array.Empty<Cargo>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,7 +48,7 @@
     private async Task OnAddCargo()
     {
         // Placeholder: Create a minimal cargo and post. In real UI, open dialog.
-        var cargo = new CargoTracker.Dtos.CargoDto
+        var cargo = new Cargo
         {
             Id = Guid.NewGuid(),
             Name = "New cargo",

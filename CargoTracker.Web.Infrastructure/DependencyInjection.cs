@@ -1,4 +1,6 @@
+using AutoMapper;
 using CargoTracker.Web.Domain.Abstractions;
+using CargoTracker.Web.Domain.Mapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +17,12 @@ public static class DependencyInjection
         services.AddHttpClient<IDataManagerApiClient, DataManagerApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseUrl);
+        });
+
+        // AutoMapper for Web (DTO <-> Model mapping used by ApiClient)
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile(new WebMappingProfile());
         });
 
         return services;
