@@ -1,0 +1,58 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+
+@if (_local.HasValue)
+{
+    <div style="line-height:1.1">
+        <div>@_local.Value.ToString(DateFormat)</div>
+        <div>@_local.Value.ToString(TimeFormat)</div>
+    </div>
+}
+else
+{
+    <div style="line-height:1.1">
+        <div>@Value.ToString(DateFormat)</div>
+        <div>@Value.ToString(TimeFormat)</div>
+    </div>
+}
+
+@code {
+    [Parameter] public DateTimeOffset Value { get; set; }
+    [Parameter] public string DateFormat { get; set; } = "d"; // short date
+    [Parameter] public string TimeFormat { get; set; } = "t"; // short time
+
+    private DateTimeOffset? _local;
+    private int? _offsetMinutes;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _offsetMinutes = await JS.InvokeAsync<int>("cargoTrackerGetTimezoneOffsetMinutes");
+                ComputeLocal();
+                StateHasChanged();
+            }
+            catch
+            {
+                // Ignore JS errors; fallback to server formatting
+            }
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        ComputeLocal();
+    }
+
+    private void ComputeLocal()
+    {
+        if (_offsetMinutes is int minutes)
+        {
+            var utc = Value.ToUniversalTime();
+            var localOffset = TimeSpan.FromMinutes(-minutes);
+            _local = utc.ToOffset(localOffset);
+        }
+    }
+}

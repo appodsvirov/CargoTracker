@@ -18,18 +18,24 @@
     <RadzenDataGrid Data="filteredCargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10"
         AllowSorting="true">
         <Columns>
-            <RadzenDataGridColumn TItem="Cargo" Title="Id">
+            <RadzenDataGridColumn TItem="Cargo" Title="Id" Width="100px" TextAlign="TextAlign.Center">
                 <Template Context="c">
-                    <RadzenStack Orientation="Orientation.Horizontal" Gap="6px" AlignItems="AlignItems.Center">
-                        <CopyToClipboardButton TextToCopy="@c.Id.ToString()"/>
-                    </RadzenStack>
+                    <CopyToClipboardButton TextToCopy="@c.Id.ToString()"/>
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Наименование" />
             <RadzenDataGridColumn TItem="Cargo" Property="From" Title="Откуда" />
             <RadzenDataGridColumn TItem="Cargo" Property="To" Title="Куда" />
-            <RadzenDataGridColumn TItem="Cargo" Property="DepartureAt" Title="Departure" />
-            <RadzenDataGridColumn TItem="Cargo" Property="EstimatedArrivalAt" Title="ETA" />
+            <RadzenDataGridColumn TItem="Cargo" Title="Departure">
+                <Template Context="c">
+                    <LocalDateTime Value="@c.DepartureAt" />
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Cargo" Title="ETA">
+                <Template Context="c">
+                    <LocalDateTime Value="@c.EstimatedArrivalAt" />
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Cargo" Title="Действия" Context="c">
                 <Template Context="c">
                     <RadzenButton Icon="add_location" Size="ButtonSize.Small" Click="() => OnAddTrack(c)" Style="margin-right:6px" />

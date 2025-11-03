@@ -20,3 +20,14 @@ window.cargoTrackerCopyToClipboard = async function (text) {
         throw e;
     }
 }
+
+// Returns the client's timezone offset in minutes (same semantics as Date.getTimezoneOffset()).
+// Positive values are minutes behind UTC, negative values are minutes ahead of UTC.
+window.cargoTrackerGetTimezoneOffsetMinutes = function() {
+    try {
+        return new Date().getTimezoneOffset();
+    } catch (e) {
+        console.error('getTimezoneOffset failed', e);
+        return 0; // Fallback to UTC
+    }
+};

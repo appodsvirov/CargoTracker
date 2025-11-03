@@ -1,5 +1,6 @@
 @page "/cargos/{CargoId:guid}/tracks"
 @using CargoTracker.Web.Domain.Models
+@using CargoTracker.Web.Components.Shared
 @inject CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api
 @inject Radzen.NotificationService Notifications
 @inject NavigationManager Nav
@@ -52,8 +53,16 @@
 
     <RadzenDataGrid Data="filtered" TItem="Track" AllowPaging="true" PageSize="10" AllowSorting="true">
         <Columns>
-            <RadzenDataGridColumn TItem="Track" Property="Id" Title="Id" />
-            <RadzenDataGridColumn TItem="Track" Property="Timestamp" Title="Timestamp" />
+            <RadzenDataGridColumn TItem="Track" Title="Id" Width="100px" TextAlign="TextAlign.Center">
+                <Template Context="t">
+                    <CopyToClipboardButton TextToCopy="@t.Id.ToString()"/>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Track" Title="Timestamp">
+                <Template Context="t">
+                    <LocalDateTime Value="@t.Timestamp" />
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Track" Property="Location" Title="Location" />
         </Columns>
     </RadzenDataGrid>
