@@ -24,6 +24,12 @@
             <RadzenDataGridColumn TItem="Cargo" Property="To" Title="To" />
             <RadzenDataGridColumn TItem="Cargo" Property="DepartureAt" Title="Departure" />
             <RadzenDataGridColumn TItem="Cargo" Property="EstimatedArrivalAt" Title="ETA" />
+            <RadzenDataGridColumn TItem="Cargo" Title="Actions" Context="c">
+                <Template Context="c">
+                    <RadzenButton Icon="add_location" Size="ButtonSize.Small" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
+                    <RadzenButton Icon="list" Size="ButtonSize.Small" Click="() => OnShowTracks(c)" />
+                </Template>
+            </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
 </RadzenStack>
@@ -33,6 +39,7 @@
     [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
     [Inject] private Radzen.DialogService Dialogs { get; set; } = default!;
     [Inject] private CargoTracker.Web.Domain.Abstractions.ICargoFilterService FilterService { get; set; } = default!;
+    [Inject] private NavigationManager Nav { get; set; } = default!;
 
     private IReadOnlyList<Cargo> cargos = Array.Empty<Cargo>();
     private IReadOnlyList<Cargo> filteredCargos = Array.Empty<Cargo>();
@@ -113,5 +120,34 @@
         {
             Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to create cargo", ex.Message);
         }
+    }
+
+    private async Task OnAddTrack(Cargo c)
+    {
+        try
+        {
+            var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.TrackCreateDialog>(
+                title: "Добавить трек",
+                options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
+                parameters: new Dictionary<string, object?>
+                {
+                    [nameof(CargoTracker.Web.Components.Dialogs.TrackCreateDialog.CargoId)] = c.Id
+                });
+
+            if (result is Track t)
+            {
+                var created = await Api.CreateTrackAsync(t);
+                Notifications.Notify(Radzen.NotificationSeverity.Success, $"Track added for cargo {c.Id}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to add track", ex.Message);
+        }
+    }
+
+    private void OnShowTracks(Cargo c)
+    {
+        Nav.NavigateTo($"/cargos/{c.Id}/tracks");
     }
 }

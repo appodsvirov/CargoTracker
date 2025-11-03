@@ -1,0 +1,75 @@
+@page "/cargos/{CargoId:guid}/tracks"
+@using CargoTracker.Web.Domain.Models
+@inject CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api
+@inject Radzen.NotificationService Notifications
+@inject NavigationManager Nav
+@inject CargoTracker.Web.Domain.Abstractions.ICargoFilterService FilterService
+
+<PageTitle>Tracks</PageTitle>
+
+<RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px" Change=OnFilterQueryChanged />
+        <span>@FilterSummary</span>
+    </RadzenStack>
+
+    <RadzenDataGrid Data="filtered" TItem="Track" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="Track" Property="Id" Title="Id" />
+            <RadzenDataGridColumn TItem="Track" Property="Timestamp" Title="Timestamp" />
+            <RadzenDataGridColumn TItem="Track" Property="Location" Title="Location" />
+        </Columns>
+    </RadzenDataGrid>
+
+    <RadzenButton Text="Назад" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
+</RadzenStack>
+
+@code {
+    [Parameter] public Guid CargoId { get; set; }
+
+    private IReadOnlyList<Track> all = Array.Empty<Track>();
+    private IReadOnlyList<Track> filtered = Array.Empty<Track>();
+    private string? filterQuery;
+
+    private string FilterSummary => "Фильтр: Id, Timestamp, Location";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var tracks = await Api.GetTracksAsync();
+            all = tracks.Where(t => t.CargoId == CargoId).ToList();
+            ApplyFilter();
+        }
+        catch (Exception ex)
+        {
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось загрузить треки", ex.Message);
+        }
+    }
+
+    private void ApplyFilter()
+    {
+        if (string.IsNullOrWhiteSpace(filterQuery))
+        {
+            filtered = all;
+            return;
+        }
+        var q = filterQuery.Trim();
+        filtered = all.Where(t =>
+            t.Id.ToString().Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            t.Location.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            t.Timestamp.ToString("u").Contains(q, StringComparison.OrdinalIgnoreCase)
+        ).ToList();
+    }
+
+    private Task OnFilterQueryChanged(object? _)
+    {
+        ApplyFilter();
+        return Task.CompletedTask;
+    }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo("/cargos");
+    }
+}
