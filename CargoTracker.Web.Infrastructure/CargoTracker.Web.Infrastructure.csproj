@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CargoTracker.Web.Domain\CargoTracker.Web.Domain.csproj" />
+    <ProjectReference Include="..\CargoTracker.Dtos\CargoTracker.Dtos.csproj" />
   </ItemGroup>
 
   <ItemGroup>

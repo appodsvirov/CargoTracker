@@ -1,6 +1,6 @@
-namespace CargoTracker.Web.Domain.Models;
+namespace CargoTracker.DataManager.Domain.Models;
 
-public sealed class CargoDto
+public class Cargo
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

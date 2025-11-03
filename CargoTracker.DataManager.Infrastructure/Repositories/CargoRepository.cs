@@ -7,13 +7,13 @@ namespace CargoTracker.DataManager.Infrastructure.Repositories;
 
 public class CargoRepository(CargoTrackerDbContext db) : ICargoRepository
 {
-    public async Task<Cargo?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<CargoEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
         => await db.Cargos.Include(c => c.Track).FirstOrDefaultAsync(c => c.Id == id, ct);
 
-    public async Task<IReadOnlyList<Cargo>> GetAllAsync(CancellationToken ct = default)
+    public async Task<IReadOnlyList<CargoEntity>> GetAllAsync(CancellationToken ct = default)
         => await db.Cargos.Include(c => c.Track).OrderByDescending(c => c.DepartureAt).ToListAsync(ct);
 
-    public async Task<Cargo> AddAsync(Cargo cargo, CancellationToken ct = default)
+    public async Task<CargoEntity> AddAsync(CargoEntity cargo, CancellationToken ct = default)
     {
         if (cargo.Id == Guid.Empty) cargo.Id = Guid.NewGuid();
         db.Cargos.Add(cargo);
@@ -21,7 +21,7 @@ public class CargoRepository(CargoTrackerDbContext db) : ICargoRepository
         return cargo;
     }
 
-    public async Task UpdateAsync(Cargo cargo, CancellationToken ct = default)
+    public async Task UpdateAsync(CargoEntity cargo, CancellationToken ct = default)
     {
         db.Cargos.Update(cargo);
         await db.SaveChangesAsync(ct);

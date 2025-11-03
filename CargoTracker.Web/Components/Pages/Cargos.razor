@@ -25,7 +25,7 @@
     [Inject] private CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api { get; set; } = default!;
     [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
 
-    private IReadOnlyList<CargoTracker.Web.Domain.Models.CargoDto> cargos = Array.Empty<CargoTracker.Web.Domain.Models.CargoDto>();
+    private IReadOnlyList<CargoTracker.Dtos.CargoDto> cargos = Array.Empty<CargoTracker.Dtos.CargoDto>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,7 +48,7 @@
     private async Task OnAddCargo()
     {
         // Placeholder: Create a minimal cargo and post. In real UI, open dialog.
-        var cargo = new CargoTracker.Web.Domain.Models.CargoDto
+        var cargo = new CargoTracker.Dtos.CargoDto
         {
             Id = Guid.NewGuid(),
             Name = "New cargo",

@@ -1,6 +1,6 @@
 namespace CargoTracker.Web.Domain.Abstractions;
 
-using CargoTracker.Web.Domain.Models;
+using CargoTracker.Dtos;
 
 public interface IDataManagerApiClient
 {

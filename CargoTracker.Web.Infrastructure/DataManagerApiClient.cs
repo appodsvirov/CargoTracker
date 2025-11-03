@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
 using CargoTracker.Web.Domain.Abstractions;
-using CargoTracker.Web.Domain.Models;
+using CargoTracker.Dtos;
 
 namespace CargoTracker.Web.Infrastructure;
 

@@ -1,4 +1,4 @@
-namespace CargoTracker.Web.Domain.Models;
+namespace CargoTracker.Dtos;
 
 public sealed class TrackDto
 {

@@ -10,11 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CargoTracker.DataManager.Domain\CargoTracker.DataManager.Domain.csproj" />
     <ProjectReference Include="..\CargoTracker.DataManager.Infrastructure\CargoTracker.DataManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\CargoTracker.Dtos\CargoTracker.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

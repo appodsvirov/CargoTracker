@@ -5,12 +5,12 @@ namespace CargoTracker.DataManager.Infrastructure.Persistence;
 
 public class CargoTrackerDbContext(DbContextOptions<CargoTrackerDbContext> options) : DbContext(options)
 {
-    public DbSet<Cargo> Cargos => Set<Cargo>();
-    public DbSet<Track> Tracks => Set<Track>();
+    public DbSet<CargoEntity> Cargos => Set<CargoEntity>();
+    public DbSet<TrackEntity> Tracks => Set<TrackEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Cargo>(entity =>
+        modelBuilder.Entity<CargoEntity>(entity =>
         {
             entity.ToTable("cargos");
             entity.HasKey(e => e.Id);
@@ -26,7 +26,7 @@ public class CargoTrackerDbContext(DbContextOptions<CargoTrackerDbContext> optio
                   .OnDelete(DeleteBehavior.SetNull);
         });
 
-        modelBuilder.Entity<Track>(entity =>
+        modelBuilder.Entity<TrackEntity>(entity =>
         {
             entity.ToTable("tracks");
             entity.HasKey(e => e.Id);
