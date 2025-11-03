@@ -1,0 +1,76 @@
+@using CargoTracker.Web.Domain.Models
+@inject Radzen.DialogService Dialogs
+
+<RadzenTemplateForm TItem="CargoFilterOptionsModel" Data="model" Submit="OnSubmit">
+    <ChildContent>
+        <RadzenFieldset Text="По каким полям искать?">
+            <RadzenCheckBox @bind-Value="model.ByName" TriState="false" /> <label>Имя</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByFrom" TriState="false" /> <label>Откуда</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByTo" TriState="false" /> <label>Куда</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByDeparture" TriState="false" /> <label>Отправление</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByEta" TriState="false" /> <label>ETA</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByTrack" TriState="false" /> <label>Track Id</label>
+        </RadzenFieldset>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
+            <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
+            <RadzenButton Text="OK" ButtonStyle="ButtonStyle.Primary" Type="ButtonType.Submit" />
+        </RadzenStack>
+    </ChildContent>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public CargoFilterOptions Options { get; set; }
+
+    private CargoFilterOptionsModel model = new();
+
+    protected override void OnInitialized()
+    {
+        model = CargoFilterOptionsModel.FromFlags(Options);
+    }
+
+    private void OnSubmit(CargoFilterOptionsModel m)
+    {
+        Dialogs.Close(m.ToFlags());
+    }
+
+    private sealed class CargoFilterOptionsModel
+    {
+        public bool ByName { get; set; }
+        public bool ByFrom { get; set; }
+        public bool ByTo { get; set; }
+        public bool ByDeparture { get; set; }
+        public bool ByEta { get; set; }
+        public bool ByTrack { get; set; }
+
+        public CargoFilterOptions ToFlags()
+        {
+            CargoFilterOptions f = CargoFilterOptions.None;
+            if (ByName) f |= CargoFilterOptions.Name;
+            if (ByFrom) f |= CargoFilterOptions.From;
+            if (ByTo) f |= CargoFilterOptions.To;
+            if (ByDeparture) f |= CargoFilterOptions.DepartureAt;
+            if (ByEta) f |= CargoFilterOptions.EstimatedArrivalAt;
+            if (ByTrack) f |= CargoFilterOptions.TrackId;
+            return f == CargoFilterOptions.None ? CargoFilterOptions.All : f;
+        }
+
+        public static CargoFilterOptionsModel FromFlags(CargoFilterOptions options)
+        {
+            return new CargoFilterOptionsModel
+            {
+                ByName = options.HasFlag(CargoFilterOptions.Name),
+                ByFrom = options.HasFlag(CargoFilterOptions.From),
+                ByTo = options.HasFlag(CargoFilterOptions.To),
+                ByDeparture = options.HasFlag(CargoFilterOptions.DepartureAt),
+                ByEta = options.HasFlag(CargoFilterOptions.EstimatedArrivalAt),
+                ByTrack = options.HasFlag(CargoFilterOptions.TrackId)
+            };
+        }
+    }
+}

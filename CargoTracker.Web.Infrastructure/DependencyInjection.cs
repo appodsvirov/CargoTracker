@@ -3,6 +3,7 @@ using CargoTracker.Web.Domain.Abstractions;
 using CargoTracker.Web.Domain.Mapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CargoTracker.Web.Domain.Services;
 
 namespace CargoTracker.Web.Infrastructure;
 
@@ -24,6 +25,9 @@ public static class DependencyInjection
         {
             cfg.AddProfile(new WebMappingProfile());
         });
+
+        // Domain services
+        services.AddSingleton<ICargoFilterService, CargoFilterService>();
 
         return services;
     }

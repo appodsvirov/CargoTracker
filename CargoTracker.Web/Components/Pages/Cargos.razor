@@ -8,7 +8,15 @@
         <RadzenButton Text="Add Cargo" Icon="add_circle" Click="OnAddCargo" />
     </RadzenStack>
 
-    <RadzenDataGrid Data="cargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
+    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px"
+            Change=OnFilterQueryChanged />
+        <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
+        <span>@FilterSummary</span>
+    </RadzenStack>
+
+    <RadzenDataGrid Data="filteredCargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10"
+        AllowSorting="true">
         <Columns>
             <RadzenDataGridColumn TItem="Cargo" Property="Id" Title="Id" />
             <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
@@ -25,8 +33,15 @@
     [Inject] private CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api { get; set; } = default!;
     [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
     [Inject] private Radzen.DialogService Dialogs { get; set; } = default!;
+    [Inject] private CargoTracker.Web.Domain.Abstractions.ICargoFilterService FilterService { get; set; } = default!;
 
     private IReadOnlyList<Cargo> cargos = Array.Empty<Cargo>();
+    private IReadOnlyList<Cargo> filteredCargos = Array.Empty<Cargo>();
+
+    private string? filterQuery;
+    private CargoTracker.Web.Domain.Models.CargoFilterOptions filterOptions = CargoTracker.Web.Domain.Models.CargoFilterOptions.All;
+
+    private string FilterSummary => $"Fields: {filterOptions}";
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,11 +53,40 @@
         try
         {
             cargos = await Api.GetCargosAsync();
+            ApplyFilter();
             StateHasChanged();
         }
         catch (Exception ex)
         {
             Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to load cargos", ex.Message);
+        }
+    }
+
+    private void ApplyFilter()
+    {
+        filteredCargos = FilterService.Filter(cargos, filterQuery, filterOptions);
+    }
+
+    private Task OnFilterQueryChanged(object? _)
+    {
+        ApplyFilter();
+        return Task.CompletedTask;
+    }
+
+    private async Task OpenFilterSettings()
+    {
+        var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.CargoFilterSettingsDialog>(
+            title: "Настройки фильтра",
+            options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
+            parameters: new Dictionary<string, object?>
+            {
+                [nameof(CargoTracker.Web.Components.Dialogs.CargoFilterSettingsDialog.Options)] = filterOptions
+            });
+
+        if (result is CargoTracker.Web.Domain.Models.CargoFilterOptions opts)
+        {
+            filterOptions = opts;
+            ApplyFilter();
         }
     }
 
