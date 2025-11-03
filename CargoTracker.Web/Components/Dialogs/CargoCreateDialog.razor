@@ -1,0 +1,123 @@
+@using CargoTracker.Web.Domain.Models
+@inject Radzen.DialogService Dialogs
+@inject CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api
+
+<RadzenTemplateForm TItem="NewCargoModel" Data="model" Submit="OnValidSubmit">
+    <ChildContent>
+        <RadzenStack Orientation="Orientation.Vertical" Gap="10px" Style="width: 500px; max-width: 100%">
+            <h3>Новый груз</h3>
+
+            <RadzenFieldset Text="Основная информация" Toggleable="false">
+                <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+                    <RadzenTextBox @bind-Value="model.Name" Name="Name" Placeholder="Название" Style="width:100%" />
+                    <RadzenRequiredValidator Component="Name" Text="Название обязательно" />
+
+                    <RadzenTextBox @bind-Value="model.From" Name="From" Placeholder="Откуда" Style="width:100%" />
+                    <RadzenRequiredValidator Component="From" Text="Поле 'Откуда' обязательно" />
+
+                    <RadzenTextBox @bind-Value="model.To" Name="To" Placeholder="Куда" Style="width:100%" />
+                    <RadzenRequiredValidator Component="To" Text="Поле 'Куда' обязательно" />
+                </RadzenStack>
+            </RadzenFieldset>
+
+            <RadzenFieldset Text="Даты" Toggleable="false">
+                <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+                    <label>Отправление</label>
+                    <RadzenDatePicker TValue="DateTimeOffset" @bind-Value="model.DepartureAt" Name="DepartureAt" DateFormat="yyyy-MM-dd HH:mm" ShowTime="true" Style="width:100%" />
+
+                    <label>Прибытие (ETA)</label>
+                    <RadzenDatePicker TValue="DateTimeOffset" @bind-Value="model.EstimatedArrivalAt" Name="EstimatedArrivalAt" DateFormat="yyyy-MM-dd HH:mm" ShowTime="true" Style="width:100%" />
+                    <RadzenValidationSummary />
+                </RadzenStack>
+            </RadzenFieldset>
+
+            <RadzenFieldset Text="Трек (необязательно)" Toggleable="false">
+                <RadzenDropDown @bind-Value="model.TrackId"
+                                Data="tracks"
+                                TextProperty="Location"
+                                ValueProperty="Id"
+                                Placeholder="Выберите трек"
+                                AllowClear="true"
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Style="width:100%" />
+            </RadzenFieldset>
+
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
+                <RadzenButton Text="Создать" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
+            </RadzenStack>
+        </RadzenStack>
+    </ChildContent>
+</RadzenTemplateForm>
+
+@code {
+    private NewCargoModel model = new();
+    private IReadOnlyList<Track> tracks = Array.Empty<Track>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Defaults: current time
+        model.DepartureAt = DateTimeOffset.UtcNow;
+        model.EstimatedArrivalAt = DateTimeOffset.UtcNow;
+
+        // Load tracks for dropdown
+        try
+        {
+            tracks = await Api.GetTracksAsync();
+        }
+        catch
+        {
+            // Ignore loading tracks errors in dialog – keep dropdown empty
+            tracks = Array.Empty<Track>();
+        }
+    }
+
+    private void OnCancel()
+    {
+        Dialogs.Close(null);
+    }
+
+    private void OnValidSubmit(NewCargoModel _)
+    {
+        // Cross-field validation already performed by IValidatableObject
+        var cargo = new Cargo
+        {
+            // Id intentionally not set by user
+            Name = model.Name.Trim(),
+            From = model.From.Trim(),
+            To = model.To.Trim(),
+            DepartureAt = model.DepartureAt,
+            EstimatedArrivalAt = model.EstimatedArrivalAt,
+            TrackId = model.TrackId
+        };
+
+        Dialogs.Close(cargo);
+    }
+
+    private sealed class NewCargoModel : System.ComponentModel.DataAnnotations.IValidatableObject
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Name { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public string From { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public string To { get; set; } = string.Empty;
+
+        public DateTimeOffset DepartureAt { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset EstimatedArrivalAt { get; set; } = DateTimeOffset.UtcNow;
+        public Guid? TrackId { get; set; }
+
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
+        {
+            if (EstimatedArrivalAt < DepartureAt)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult(
+                    "ETA не может быть раньше даты отправления",
+                    new[] { nameof(EstimatedArrivalAt) }
+                );
+            }
+        }
+    }
+}

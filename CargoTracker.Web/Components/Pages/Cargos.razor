@@ -24,6 +24,7 @@
 @code {
     [Inject] private CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api { get; set; } = default!;
     [Inject] private Radzen.NotificationService Notifications { get; set; } = default!;
+    [Inject] private Radzen.DialogService Dialogs { get; set; } = default!;
 
     private IReadOnlyList<Cargo> cargos = Array.Empty<Cargo>();
 
@@ -47,22 +48,23 @@
 
     private async Task OnAddCargo()
     {
-        // Placeholder: Create a minimal cargo and post. In real UI, open dialog.
-        var cargo = new Cargo
-        {
-            Id = Guid.NewGuid(),
-            Name = "New cargo",
-            From = "",
-            To = "",
-            DepartureAt = DateTimeOffset.UtcNow,
-            EstimatedArrivalAt = DateTimeOffset.UtcNow.AddDays(3),
-            TrackId = null
-        };
         try
         {
-            await Api.CreateCargoAsync(cargo);
-            Notifications.Notify(Radzen.NotificationSeverity.Success, "Cargo created");
-            await LoadAsync();
+            var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.CargoCreateDialog>(
+                title: "Создать груз",
+                options: new Radzen.DialogOptions { Width = "600px", Resizable = true, Draggable = true }
+            );
+
+            if (result is Cargo newCargo)
+            {
+                // Ensure defaults for times if not set
+                if (newCargo.DepartureAt == default) newCargo.DepartureAt = DateTimeOffset.UtcNow;
+                if (newCargo.EstimatedArrivalAt == default) newCargo.EstimatedArrivalAt = newCargo.DepartureAt;
+
+                var created = await Api.CreateCargoAsync(newCargo);
+                Notifications.Notify(Radzen.NotificationSeverity.Success, $"Cargo '{created.Name}' created");
+                await LoadAsync();
+            }
         }
         catch (Exception ex)
         {
