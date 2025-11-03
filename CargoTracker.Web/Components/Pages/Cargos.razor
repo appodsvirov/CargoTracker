@@ -4,15 +4,11 @@
 
 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px">
-        <RadzenButton Text="Refresh" Click="LoadAsync" Icon="refresh" Style="margin-right:5px" />
-        <RadzenButton Text="Add Cargo" Icon="add_circle" Click="OnAddCargo" />
-    </RadzenStack>
-
-    <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+        <RadzenButton Click="LoadAsync" Icon="refresh" Style="margin-right:5px" />
+        <RadzenButton Icon="add_circle" Click="OnAddCargo" />
         <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px"
-            Change=OnFilterQueryChanged />
-        <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
-        <span>@FilterSummary</span>
+                       Change=OnFilterQueryChanged />
+        <RadzenButton Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 
     <RadzenDataGrid Data="filteredCargos" TItem="Cargo" RowHover="true" AllowPaging="true" PageSize="10"

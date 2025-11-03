@@ -1,0 +1,61 @@
+@using CargoTracker.Web.Domain.Models
+@inject Radzen.DialogService Dialogs
+
+<RadzenTemplateForm TItem="TrackFilterOptionsModel" Data="model" Submit="OnSubmit">
+    <ChildContent>
+        <RadzenFieldset Text="По каким полям искать?">
+            <RadzenCheckBox @bind-Value="model.ById" TriState="false" /> <label>Id</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByTimestamp" TriState="false" /> <label>Timestamp</label>
+            <br />
+            <RadzenCheckBox @bind-Value="model.ByLocation" TriState="false" /> <label>Location</label>
+        </RadzenFieldset>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
+            <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
+            <RadzenButton Text="OK" ButtonStyle="ButtonStyle.Primary" Type="ButtonType.Submit" />
+        </RadzenStack>
+    </ChildContent>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public TrackFilterOptions Options { get; set; }
+
+    private TrackFilterOptionsModel model = new();
+
+    protected override void OnInitialized()
+    {
+        model = TrackFilterOptionsModel.FromFlags(Options);
+    }
+
+    private void OnSubmit(TrackFilterOptionsModel m)
+    {
+        Dialogs.Close(m.ToFlags());
+    }
+
+    private sealed class TrackFilterOptionsModel
+    {
+        public bool ById { get; set; }
+        public bool ByTimestamp { get; set; }
+        public bool ByLocation { get; set; }
+
+        public TrackFilterOptions ToFlags()
+        {
+            TrackFilterOptions f = TrackFilterOptions.None;
+            if (ById) f |= TrackFilterOptions.Id;
+            if (ByTimestamp) f |= TrackFilterOptions.Timestamp;
+            if (ByLocation) f |= TrackFilterOptions.Location;
+            return f == TrackFilterOptions.None ? TrackFilterOptions.All : f;
+        }
+
+        public static TrackFilterOptionsModel FromFlags(TrackFilterOptions options)
+        {
+            return new TrackFilterOptionsModel
+            {
+                ById = options.HasFlag(TrackFilterOptions.Id),
+                ByTimestamp = options.HasFlag(TrackFilterOptions.Timestamp),
+                ByLocation = options.HasFlag(TrackFilterOptions.Location)
+            };
+        }
+    }
+}

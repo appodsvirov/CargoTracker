@@ -28,6 +28,7 @@ public static class DependencyInjection
 
         // Domain services
         services.AddSingleton<ICargoFilterService, CargoFilterService>();
+        services.AddSingleton<ITrackFilterService, TrackFilterService>();
 
         return services;
     }

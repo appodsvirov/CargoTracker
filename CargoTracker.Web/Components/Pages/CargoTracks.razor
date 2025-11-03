@@ -3,14 +3,16 @@
 @inject CargoTracker.Web.Domain.Abstractions.IDataManagerApiClient Api
 @inject Radzen.NotificationService Notifications
 @inject NavigationManager Nav
-@inject CargoTracker.Web.Domain.Abstractions.ICargoFilterService FilterService
+@inject CargoTracker.Web.Domain.Abstractions.ITrackFilterService FilterService
+@inject Radzen.DialogService Dialogs
 
 <PageTitle>Tracks</PageTitle>
 
 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+        <RadzenButton Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
         <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px" Change=OnFilterQueryChanged />
-        <span>@FilterSummary</span>
+        <RadzenButton Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 
     <RadzenDataGrid Data="filtered" TItem="Track" RowHover="true" AllowPaging="true" PageSize="10" AllowSorting="true">
@@ -20,8 +22,6 @@
             <RadzenDataGridColumn TItem="Track" Property="Location" Title="Location" />
         </Columns>
     </RadzenDataGrid>
-
-    <RadzenButton Text="Назад" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
 </RadzenStack>
 
 @code {
@@ -30,8 +30,9 @@
     private IReadOnlyList<Track> all = Array.Empty<Track>();
     private IReadOnlyList<Track> filtered = Array.Empty<Track>();
     private string? filterQuery;
+    private CargoTracker.Web.Domain.Models.TrackFilterOptions filterOptions = CargoTracker.Web.Domain.Models.TrackFilterOptions.All;
 
-    private string FilterSummary => "Фильтр: Id, Timestamp, Location";
+    private string FilterSummary => $"Fields: {filterOptions}";
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,20 +50,33 @@
 
     private void ApplyFilter()
     {
-        if (string.IsNullOrWhiteSpace(filterQuery))
-        {
-            filtered = all;
-            return;
-        }
-        var q = filterQuery.Trim();
-        filtered = all.Where(t =>
-            t.Id.ToString().Contains(q, StringComparison.OrdinalIgnoreCase) ||
-            t.Location.Contains(q, StringComparison.OrdinalIgnoreCase) ||
-            t.Timestamp.ToString("u").Contains(q, StringComparison.OrdinalIgnoreCase)
-        ).ToList();
+        filtered = FilterService.Filter(all, filterQuery, filterOptions);
     }
 
     private Task OnFilterQueryChanged(object? _)
+    {
+        ApplyFilter();
+        return Task.CompletedTask;
+    }
+
+    private async Task OpenFilterSettings()
+    {
+        var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.TrackFilterSettingsDialog>(
+            title: "Настройки фильтра",
+            options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
+            parameters: new Dictionary<string, object?>
+            {
+                [nameof(CargoTracker.Web.Components.Dialogs.TrackFilterSettingsDialog.Options)] = filterOptions
+            });
+
+        if (result is CargoTracker.Web.Domain.Models.TrackFilterOptions opts)
+        {
+            filterOptions = opts;
+            ApplyFilter();
+        }
+    }
+
+    private Task OnFilterOptionsChanged()
     {
         ApplyFilter();
         return Task.CompletedTask;
