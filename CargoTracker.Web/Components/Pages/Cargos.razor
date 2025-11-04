@@ -10,7 +10,7 @@
     </RadzenStack>
 
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
-        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px"
+        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Search..." Style="width:300px"
             Change=OnFilterQueryChanged />
         <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
@@ -23,9 +23,9 @@
                     <CopyToClipboardButton TextToCopy="@c.Id.ToString()"/>
                 </Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Наименование" />
-            <RadzenDataGridColumn TItem="Cargo" Property="From" Title="Откуда" />
-            <RadzenDataGridColumn TItem="Cargo" Property="To" Title="Куда" />
+            <RadzenDataGridColumn TItem="Cargo" Property="Name" Title="Name" />
+            <RadzenDataGridColumn TItem="Cargo" Property="From" Title="From" />
+            <RadzenDataGridColumn TItem="Cargo" Property="To" Title="To" />
             <RadzenDataGridColumn TItem="Cargo" Title="Departure">
                 <Template Context="c">
                     <LocalDateTime Value="@c.DepartureAt" />
@@ -36,7 +36,7 @@
                     <LocalDateTime Value="@c.EstimatedArrivalAt" />
                 </Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Cargo" Title="Действия" Context="c">
+            <RadzenDataGridColumn TItem="Cargo" Title="Actions" Context="c">
                 <Template Context="c">
                     <RadzenButton Icon="add_location" Size="ButtonSize.Small" Click="() => OnAddTrack(c)" Style="margin-right:6px" />
                     <RadzenButton Icon="list" Size="ButtonSize.Small" Click="() => OnShowTracks(c)" />
@@ -92,7 +92,7 @@
     private async Task OpenFilterSettings()
     {
         var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.CargoFilterSettingsDialog>(
-            title: "Настройки фильтра",
+            title: "Filter settings",
             options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
             parameters: new Dictionary<string, object?>
             {
@@ -111,7 +111,7 @@
         try
         {
             var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.CargoCreateDialog>(
-                title: "Создать груз",
+                title: "Create cargo",
                 options: new Radzen.DialogOptions { Width = "600px", Resizable = true, Draggable = true }
             );
 
@@ -137,7 +137,7 @@
         try
         {
             var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.TrackCreateDialog>(
-                title: "Добавить трек",
+                title: "Add track",
                 options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
                 parameters: new Dictionary<string, object?>
                 {

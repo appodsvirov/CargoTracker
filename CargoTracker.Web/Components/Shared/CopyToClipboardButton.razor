@@ -29,11 +29,11 @@
         try
         {
             await JS.InvokeVoidAsync("cargoTrackerCopyToClipboard", TextToCopy);
-            Notifications.Notify(Radzen.NotificationSeverity.Success, "Скопировано", "Текст скопирован в буфер обмена");
+            Notifications.Notify(Radzen.NotificationSeverity.Success, "Copied", "Value copied to clipboard");
         }
         catch (Exception ex)
         {
-            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось скопировать", ex.Message);
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Copy failed", ex.Message);
         }
     }
 }

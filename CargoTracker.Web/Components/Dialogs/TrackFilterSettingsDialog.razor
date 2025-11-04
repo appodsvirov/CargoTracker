@@ -3,7 +3,7 @@
 
 <RadzenTemplateForm TItem="TrackFilterOptionsModel" Data="model" Submit="OnSubmit">
     <ChildContent>
-        <RadzenFieldset Text="По каким полям искать?">
+        <RadzenFieldset Text="Which fields to search?">
             <RadzenCheckBox @bind-Value="model.ById" TriState="false" /> <label>Id</label>
             <br />
             <RadzenCheckBox @bind-Value="model.ByTimestamp" TriState="false" /> <label>Timestamp</label>
@@ -12,7 +12,7 @@
         </RadzenFieldset>
 
         <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
-            <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
+            <RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
             <RadzenButton Text="OK" ButtonStyle="ButtonStyle.Primary" Type="ButtonType.Submit" />
         </RadzenStack>
     </ChildContent>

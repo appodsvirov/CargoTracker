@@ -15,7 +15,7 @@
         <ChildContent>
             @if (cargo is null)
             {
-                <RadzenText Text="Груз не найден"/>
+                <RadzenText Text="Cargo not found"/>
             }
             else
             {
@@ -27,15 +27,15 @@
 
                     <RadzenRow>
                         <RadzenColumn Size="6">
-                            <RadzenFieldset Text="Маршрут" Toggleable="false">
-                                <div><b>Откуда:</b> @cargo.From</div>
-                                <div><b>Куда:</b> @cargo.To</div>
+                            <RadzenFieldset Text="Route" Toggleable="false">
+                                <div><b>From:</b> @cargo.From</div>
+                                <div><b>To:</b> @cargo.To</div>
                             </RadzenFieldset>
                         </RadzenColumn>
                         <RadzenColumn Size="6">
-                            <RadzenFieldset Text="Сроки" Toggleable="false">
-                                <div><b>Отправление:</b> @cargo.DepartureAt.ToLocalTime().ToString("g")</div>
-                                <div><b>Прибытие:</b> @cargo.EstimatedArrivalAt.ToLocalTime().ToString("g")</div>
+                            <RadzenFieldset Text="Schedule" Toggleable="false">
+                                <div><b>Departure:</b> @cargo.DepartureAt.ToLocalTime().ToString("g")</div>
+                                <div><b>ETA:</b> @cargo.EstimatedArrivalAt.ToLocalTime().ToString("g")</div>
                             </RadzenFieldset>
                         </RadzenColumn>
                     </RadzenRow>
@@ -46,8 +46,8 @@
 
     <!-- Controls and tracks below -->
     <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
-        <RadzenButton Text="Назад" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
-        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Поиск..." Style="width:300px" Change=OnFilterQueryChanged />
+        <RadzenButton Text="Back" Icon="arrow_back" Click="GoBack" ButtonStyle="ButtonStyle.Light" />
+        <RadzenTextBox @bind-Value="filterQuery" Placeholder="Search..." Style="width:300px" Change=OnFilterQueryChanged />
         <RadzenButton Text="Settings" Icon="settings" Click="OpenFilterSettings" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 
@@ -84,7 +84,7 @@
             cargo = await Api.GetCargoAsync(CargoId);
             if (cargo is null)
             {
-                Notifications.Notify(Radzen.NotificationSeverity.Warning, "Груз не найден");
+                Notifications.Notify(Radzen.NotificationSeverity.Warning, "Cargo not found");
             }
 
             var tracks = await Api.GetTracksAsync();
@@ -93,7 +93,7 @@
         }
         catch (Exception ex)
         {
-            Notifications.Notify(Radzen.NotificationSeverity.Error, "Не удалось загрузить данные", ex.Message);
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Failed to load tracks", ex.Message);
         }
     }
 
@@ -111,7 +111,7 @@
     private async Task OpenFilterSettings()
     {
         var result = await Dialogs.OpenAsync<CargoTracker.Web.Components.Dialogs.TrackFilterSettingsDialog>(
-            title: "Настройки фильтра",
+            title: "Filter settings",
             options: new Radzen.DialogOptions { Width = "500px", Resizable = true, Draggable = true },
             parameters: new Dictionary<string, object?>
             {

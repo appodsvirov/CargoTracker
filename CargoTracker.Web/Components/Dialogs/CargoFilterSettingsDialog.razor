@@ -3,20 +3,20 @@
 
 <RadzenTemplateForm TItem="CargoFilterOptionsModel" Data="model" Submit="OnSubmit">
     <ChildContent>
-        <RadzenFieldset Text="По каким полям искать?">
-            <RadzenCheckBox @bind-Value="model.ByName" TriState="false" /> <label>Имя</label>
+        <RadzenFieldset Text="Which fields to search?">
+            <RadzenCheckBox @bind-Value="model.ByName" TriState="false" /> <label>Name</label>
             <br />
-            <RadzenCheckBox @bind-Value="model.ByFrom" TriState="false" /> <label>Откуда</label>
+            <RadzenCheckBox @bind-Value="model.ByFrom" TriState="false" /> <label>From</label>
             <br />
-            <RadzenCheckBox @bind-Value="model.ByTo" TriState="false" /> <label>Куда</label>
+            <RadzenCheckBox @bind-Value="model.ByTo" TriState="false" /> <label>To</label>
             <br />
-            <RadzenCheckBox @bind-Value="model.ByDeparture" TriState="false" /> <label>Отправление</label>
+            <RadzenCheckBox @bind-Value="model.ByDeparture" TriState="false" /> <label>Departure</label>
             <br />
             <RadzenCheckBox @bind-Value="model.ByEta" TriState="false" /> <label>ETA</label>
         </RadzenFieldset>
 
         <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
-            <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
+            <RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Light" Click="() => Dialogs.Close(null)" />
             <RadzenButton Text="OK" ButtonStyle="ButtonStyle.Primary" Type="ButtonType.Submit" />
         </RadzenStack>
     </ChildContent>

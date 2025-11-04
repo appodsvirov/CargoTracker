@@ -4,21 +4,21 @@
 <RadzenTemplateForm TItem="TrackModel" Data="model" Submit="OnValidSubmit">
     <ChildContent>
         <RadzenStack Orientation="Orientation.Vertical" Gap="10px" Style="width: 450px; max-width: 100%">
-            <h3>Новый трек</h3>
+            <h3>New track</h3>
 
-            <RadzenFieldset Text="Данные трека" Toggleable="false">
+            <RadzenFieldset Text="Track details" Toggleable="false">
                 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
-                    <RadzenTextBox @bind-Value="model.Location" Name="Location" Placeholder="Локация" Style="width:100%" />
-                    <RadzenRequiredValidator Component="Location" Text="Локация обязательна" />
+                    <RadzenTextBox @bind-Value="model.Location" Name="Location" Placeholder="Location" Style="width:100%" />
+                    <RadzenRequiredValidator Component="Location" Text="Location is required" />
 
-                    <label>Время</label>
+                    <label>Timestamp</label>
                     <RadzenDatePicker TValue="DateTimeOffset" @bind-Value="model.Timestamp" Name="Timestamp" DateFormat="yyyy-MM-dd HH:mm" ShowTime="true" Style="width:100%" />
                 </RadzenStack>
             </RadzenFieldset>
 
             <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
-                <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
-                <RadzenButton Text="Добавить" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
+                <RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
+                <RadzenButton Text="Create" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
             </RadzenStack>
         </RadzenStack>
     </ChildContent>

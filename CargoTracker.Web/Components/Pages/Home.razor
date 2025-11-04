@@ -7,10 +7,10 @@
 @inject NavigationManager Nav
 
 <RadzenStack Orientation="Orientation.Vertical" Gap="12px" Style="max-width:520px">
-    <h3>Перейти к трекам груза</h3>
+    <h3>Go to cargo tracks</h3>
     <RadzenStack Orientation="Orientation.Horizontal" Gap="8px" AlignItems="AlignItems.Center">
-        <RadzenTextBox @bind-Value="cargoIdText" Placeholder="Введите ID груза (GUID)" Style="width:360px" Change="OnChange" />
-        <RadzenButton Text="Искать" Icon="search" Click="OnSearch" />
+        <RadzenTextBox @bind-Value="cargoIdText" Placeholder="Enter cargo ID (GUID)" Style="width:360px" Change="OnChange" />
+        <RadzenButton Text="Search" Icon="search" Click="OnSearch" />
     </RadzenStack>
     @if (!string.IsNullOrWhiteSpace(error))
     {
@@ -33,7 +33,7 @@
         error = null;
         if (!Guid.TryParse(cargoIdText, out var id))
         {
-            error = "Некорректный формат GUID";
+            error = "Invalid GUID format";
             return;
         }
 
@@ -42,15 +42,15 @@
             var cargo = await Api.GetCargoAsync(id);
             if (cargo is null)
             {
-                error = "Груз не найден";
+                error = "Cargo not found";
                 return;
             }
             Nav.NavigateTo($"/cargos/{id}/tracks");
         }
         catch (Exception ex)
         {
-            error = "Груз не найден";
-            Notifications.Notify(Radzen.NotificationSeverity.Error, "Ошибка поиска груза", ex.Message);
+            error = "Cargo not found";
+            Notifications.Notify(Radzen.NotificationSeverity.Error, "Cargo search error", ex.Message);
         }
     }
 }

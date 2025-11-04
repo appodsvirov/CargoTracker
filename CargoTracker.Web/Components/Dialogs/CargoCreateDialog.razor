@@ -5,35 +5,35 @@
 <RadzenTemplateForm TItem="NewCargoModel" Data="model" Submit="OnValidSubmit">
     <ChildContent>
         <RadzenStack Orientation="Orientation.Vertical" Gap="10px" Style="width: 500px; max-width: 100%">
-            <h3>Новый груз</h3>
+            <h3>New cargo</h3>
 
-            <RadzenFieldset Text="Основная информация" Toggleable="false">
+            <RadzenFieldset Text="Basic info" Toggleable="false">
                 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
-                    <RadzenTextBox @bind-Value="model.Name" Name="Name" Placeholder="Название" Style="width:100%" />
-                    <RadzenRequiredValidator Component="Name" Text="Название обязательно" />
+                    <RadzenTextBox @bind-Value="model.Name" Name="Name" Placeholder="Name" Style="width:100%" />
+                    <RadzenRequiredValidator Component="Name" Text="Name is required" />
 
-                    <RadzenTextBox @bind-Value="model.From" Name="From" Placeholder="Откуда" Style="width:100%" />
-                    <RadzenRequiredValidator Component="From" Text="Поле 'Откуда' обязательно" />
+                    <RadzenTextBox @bind-Value="model.From" Name="From" Placeholder="From" Style="width:100%" />
+                    <RadzenRequiredValidator Component="From" Text="'From' is required" />
 
-                    <RadzenTextBox @bind-Value="model.To" Name="To" Placeholder="Куда" Style="width:100%" />
-                    <RadzenRequiredValidator Component="To" Text="Поле 'Куда' обязательно" />
+                    <RadzenTextBox @bind-Value="model.To" Name="To" Placeholder="To" Style="width:100%" />
+                    <RadzenRequiredValidator Component="To" Text="'To' is required" />
                 </RadzenStack>
             </RadzenFieldset>
 
-            <RadzenFieldset Text="Даты" Toggleable="false">
+            <RadzenFieldset Text="Schedule" Toggleable="false">
                 <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
-                    <label>Отправление</label>
+                    <label>Departure</label>
                     <RadzenDatePicker TValue="DateTimeOffset" @bind-Value="model.DepartureAt" Name="DepartureAt" DateFormat="yyyy-MM-dd HH:mm" ShowTime="true" Style="width:100%" />
 
-                    <label>Прибытие (ETA)</label>
+                    <label>ETA</label>
                     <RadzenDatePicker TValue="DateTimeOffset" @bind-Value="model.EstimatedArrivalAt" Name="EstimatedArrivalAt" DateFormat="yyyy-MM-dd HH:mm" ShowTime="true" Style="width:100%" />
                     <RadzenValidationSummary />
                 </RadzenStack>
             </RadzenFieldset>
 
             <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" JustifyContent="JustifyContent.End">
-                <RadzenButton Text="Отмена" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
-                <RadzenButton Text="Создать" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
+                <RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Light" Click="OnCancel" Icon="close" />
+                <RadzenButton Text="Create" ButtonStyle="ButtonStyle.Primary" Icon="check" Type="ButtonType.Submit" />
             </RadzenStack>
         </RadzenStack>
     </ChildContent>
@@ -89,7 +89,7 @@
             if (EstimatedArrivalAt < DepartureAt)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult(
-                    "ETA не может быть раньше даты отправления",
+                    "ETA must be greater than or equal to Departure",
                     new[] { nameof(EstimatedArrivalAt) }
                 );
             }
